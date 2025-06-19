@@ -1,7 +1,6 @@
 name: Run Tests
 
 on:
-on:
   pull_request:
     types: [opened] # Triggers when a pull request is opened
     branches:
