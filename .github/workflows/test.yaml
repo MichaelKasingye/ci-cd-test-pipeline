@@ -1,9 +1,15 @@
 name: Run Tests
 
 on:
-  push:
+on:
+  pull_request:
+    types: [opened] # Triggers when a pull request is opened
     branches:
-      - main
+      - main # Specify the branch where PRs are opened against (e.g., main, master)
+
+  # push:
+  #   branches:
+  #     - main
 
 jobs:
   test:
