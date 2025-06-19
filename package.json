@@ -1,0 +1,37 @@
+{
+  "name": "ci-cd-test-pipeline",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+  "start": "node app.js",
+    "dev": "nodemon app.js",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix"  
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MichaelKasingye/ci-cd-test-pipeline.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MichaelKasingye/ci-cd-test-pipeline/issues"
+  },
+  "homepage": "https://github.com/MichaelKasingye/ci-cd-test-pipeline#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "eslint": "^9.29.0",
+    "eslint-config-node": "^4.1.0",
+    "express": "^5.1.0",
+    "express-rate-limit": "^7.5.0",
+    "helmet": "^8.1.0",
+    "jest": "^30.0.2",
+    "nodemon": "^3.1.10",
+    "supertest": "^7.1.1"
+  }
+}

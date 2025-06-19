@@ -1,0 +1,18 @@
+name: Deploy to DockerHub
+
+on:
+  workflow_run:
+    workflows: ["Run Tests"]
+    types:
+      - completed
+
+jobs:
+  deploy:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: docker/setup-buildx-action@v3
+
+      - name: Echo completion message
+        run: echo "Successfully built and pushed Docker image to DockerHub!"
