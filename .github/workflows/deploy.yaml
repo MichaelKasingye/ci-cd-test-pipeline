@@ -7,7 +7,8 @@ on:
   workflow_run:
     workflows: ["Run Tests"]
     types:
-      - completed
+      # - completed
+      - closed # This ensures it only runs when a pull request is closed (merged) into main
 
 jobs:
   deploy:
@@ -15,7 +16,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: docker/setup-buildx-action@v3
+      # - uses: docker/setup-buildx-action@v3
 
       - name: Echo completion message
         run: echo "Successfully built and pushed Docker image to DockerHub!"

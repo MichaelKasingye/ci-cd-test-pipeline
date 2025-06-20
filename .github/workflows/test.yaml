@@ -4,7 +4,7 @@ on:
   pull_request:
     types: [opened,synchronize] # Triggers when a pull request is opened
     branches:
-      - main # Specify the branch where PRs are opened against (e.g., main, master)
+      - main # Specify the branch where PRs are opened against (e.g., main, master).
 
   # push:
   #   branches:
