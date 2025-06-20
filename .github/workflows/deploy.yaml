@@ -4,15 +4,15 @@ on:
   push:
     branches:
       - main
-  # workflow_run:
-  #   workflows: ["Run Tests"]
+  workflow_run:
+    workflows: ["Run Tests"]
     types:
       # - completed
       - closed # This ensures it only runs when a pull request is closed (merged) into main
 
 jobs:
   deploy:
-    # if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
