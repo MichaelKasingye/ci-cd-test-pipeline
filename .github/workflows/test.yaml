@@ -6,11 +6,11 @@ on:
     branches:
       - main # Specify the branch where PRs are opened against (e.g., main, master).
 
-  push:
-    branches:
-      - main
-    types:
-      - closed
+  # push:
+  #   branches:
+  #     - main
+  #   types:
+  #     - closed
 
 jobs:
   test:
