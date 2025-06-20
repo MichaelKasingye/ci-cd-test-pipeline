@@ -6,9 +6,9 @@ on:
     branches:
       - main # Specify the branch where PRs are opened against (e.g., main, master).
 
-  # push:
-  #   branches:
-  #     - main
+  push:
+    branches:
+      - main
 
 jobs:
   test:
