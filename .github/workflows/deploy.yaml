@@ -6,8 +6,9 @@ on:
       - main
   # workflow_run:
   #   workflows: ["Run Tests"]
-  #   types:
-  #     - completed
+    types:
+      # - completed
+      - closed # This ensures it only runs when a pull request is closed (merged) into main
 
 jobs:
   deploy:
