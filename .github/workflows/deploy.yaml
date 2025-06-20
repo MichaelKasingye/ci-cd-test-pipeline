@@ -1,6 +1,9 @@
 name: Deploy to DockerHub
 
 on:
+  push:
+    branches:
+      - main
   workflow_run:
     workflows: ["Run Tests"]
     types:
@@ -16,3 +19,5 @@ jobs:
 
       - name: Echo completion message
         run: echo "Successfully built and pushed Docker image to DockerHub!"
+
+# 
