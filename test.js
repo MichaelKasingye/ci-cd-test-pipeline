@@ -12,11 +12,11 @@ describe('TODO API', () => {
     });
   });
 
-// describe('Intentional Failure Test', () => {
-//   test('should fail this test', () => {
-//     expect(1 + 1).toBe(3); // This will fail
-//   });
-// });
+describe('Intentional Failure Test', () => {
+  test('should fail this test', () => {
+    expect(1 + 1).toBe(3); // This will fail
+  });
+});
 
   describe('GET /api/todos', () => {
     test('should return all todos', async () => {
