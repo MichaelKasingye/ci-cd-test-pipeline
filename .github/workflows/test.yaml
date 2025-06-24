@@ -23,3 +23,49 @@ jobs:
       - run: npm install
       - run: npm test
       #
+
+      - name: Send Slack notification on success
+        if: success()
+        uses: 8398a7/action-slack@v3
+        with:
+          status: success
+          channel: "#deployments" # Change to your channel
+          message: |
+            *Repository:* ${{ github.repository }}
+            *Branch:* ${{ github.ref_name }}
+            *Commit:* `${{ github.sha }}`
+            *Message:* ${{ github.event.head_commit.message }}
+            *Coverage:* ${{ steps.test-summary.outputs.coverage }}%
+            *Triggered by:* ${{ github.actor }}
+            *Event:* ${{ github.event_name }}
+            *Duration:* ${{ github.job }}
+
+            :link: *Links:*
+            • <${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}|View Action Logs>
+            • <${{ github.server_url }}/${{ github.repository }}/commit/${{ github.sha }}|View Commit>
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+
+      - name: Send Slack notification on failure
+        if: env.TEST_RESULT == 'failed'
+        uses: 8398a7/action-slack@v3
+        with:
+          status: failure
+          channel: "#testing" # Change to your channel
+          message: |
+            :x: *Tests Failed!*
+
+            *Repository:* ${{ github.repository }}
+            *Branch:* ${{ github.ref_name }}
+            *Commit:* `${{ github.sha }}`
+            *Message:* ${{ github.event.head_commit.message }}
+            *Triggered by:* ${{ github.actor }}
+            *Event:* ${{ github.event_name }}
+
+            :warning: *Action Required:* Please check the test failures and fix them.
+
+            :link: *Links:*
+            • <${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}|View Failed Action Logs>
+            • <${{ github.server_url }}/${{ github.repository }}/commit/${{ github.sha }}|View Commit>
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
