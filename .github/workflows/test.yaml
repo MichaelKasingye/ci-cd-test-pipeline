@@ -39,18 +39,20 @@ jobs:
             *Custom Message:* All tests are passing and the code is ready for review! :rocket:
 
             *Repository:* ${{ github.repository }}
-            *Branch:* ${{ github.ref_name }}
+            *Source Branch:* ${{ github.ref_name }}
+            *Target Branch:* ${{ github.event.pull_request.base.ref || 'N/A (Direct Push)' }}
             *Commit:* `${{ github.sha }}`
             *Message:* ${{ github.event.head_commit.message }}
             *Coverage:* ${{ steps.test-summary.outputs.coverage }}%
             *Triggered by:* ${{ github.actor }}
             *Event:* ${{ github.event_name }}
 
-            *Next Steps:* Ready for code review and merge consideration.
+            *Next Steps:* Ready for code review and merge consideration into *${{ github.event.pull_request.base.ref || github.ref_name }}*.
 
             *Links:*
             • <${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}|View Action Logs>
             • <${{ github.server_url }}/${{ github.repository }}/commit/${{ github.sha }}|View Commit>
+            ${{ github.event.pull_request.html_url && format('• <{0}|View Pull Request>', github.event.pull_request.html_url) || '' }}
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
 
@@ -67,18 +69,20 @@ jobs:
             *Custom Alert:* Houston, we have a problem! :rotating_light: The tests are not passing and need immediate attention.
 
             *Repository:* ${{ github.repository }}
-            *Branch:* ${{ github.ref_name }}
+            *Source Branch:* ${{ github.ref_name }}
+            *Target Branch:* ${{ github.event.pull_request.base.ref || 'N/A (Direct Push)' }}
             *Commit:* `${{ github.sha }}`
             *Message:* ${{ github.event.head_commit.message }}
             *Triggered by:* ${{ github.actor }}
             *Event:* ${{ github.event_name }}
 
-            :warning: *Action Required:* Please check the test failures and fix them before proceeding.
+            :warning: *Action Required:* Please fix the test failures before merging into *${{ github.event.pull_request.base.ref || github.ref_name }}*!
             :bulb: *Tip:* Run tests locally first to catch issues early!
 
             *Links:*
             • <${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}|View Failed Action Logs>
             • <${{ github.server_url }}/${{ github.repository }}/commit/${{ github.sha }}|View Commit>
+            ${{ github.event.pull_request.html_url && format('• <{0}|View Pull Request>', github.event.pull_request.html_url) || '' }}
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
 
@@ -86,6 +90,95 @@ jobs:
       - name: Fail job if tests failed
         if: steps.test-step.outcome == 'failure'
         run: exit 1
+# name: Run Tests
+# on:
+#   pull_request:
+#     types: [opened, synchronize] # Triggers when a pull request is opened
+#     branches:
+#       - main # Specify the branch where PRs are opened against (e.g., main, master).
+#   # push:
+#   #   branches:
+#   #     - main
+#   #   types:
+#   #     - closed
+
+# jobs:
+#   test:
+#     runs-on: ubuntu-latest
+#     steps:
+#       - uses: actions/checkout@v3
+#       - uses: actions/setup-node@v3
+#         with:
+#           node-version: "18"
+#       - run: npm install
+
+#       # Run tests and continue on failure so Slack notification can run
+#       - name: Run tests
+#         id: test-step
+#         run: npm test
+#         continue-on-error: true
+
+#       # Success notification
+#       - name: Send Slack notification on success
+#         if: steps.test-step.outcome == 'success'
+#         uses: 8398a7/action-slack@v3
+#         with:
+#           status: success
+#           channel: "#deployments" # Change to your channel
+#           text: |
+#             :white_check_mark: *Tests Passed Successfully!*
+
+#             *Custom Message:* All tests are passing and the code is ready for review! :rocket:
+
+#             *Repository:* ${{ github.repository }}
+#             *Branch:* ${{ github.ref_name }}
+#             *Commit:* `${{ github.sha }}`
+#             *Message:* ${{ github.event.head_commit.message }}
+#             *Coverage:* ${{ steps.test-summary.outputs.coverage }}%
+#             *Triggered by:* ${{ github.actor }}
+#             *Event:* ${{ github.event_name }}
+
+#             *Next Steps:* Ready for code review and merge consideration.
+
+#             *Links:*
+#             • <${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}|View Action Logs>
+#             • <${{ github.server_url }}/${{ github.repository }}/commit/${{ github.sha }}|View Commit>
+#         env:
+#           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+
+#       # Failure notification
+#       - name: Send Slack notification on failure
+#         if: steps.test-step.outcome == 'failure'
+#         uses: 8398a7/action-slack@v3
+#         with:
+#           status: failure
+#           channel: "#testing" # Change to your channel
+#           text: |
+#             :x: *Tests Failed!*
+
+#             *Custom Alert:* Houston, we have a problem! :rotating_light: The tests are not passing and need immediate attention.
+
+#             *Repository:* ${{ github.repository }}
+#             *Branch:* ${{ github.ref_name }}
+#             *Commit:* `${{ github.sha }}`
+#             *Message:* ${{ github.event.head_commit.message }}
+#             *Triggered by:* ${{ github.actor }}
+#             *Event:* ${{ github.event_name }}
+
+#             :warning: *Action Required:* Please check the test failures and fix them before proceeding.
+#             :bulb: *Tip:* Run tests locally first to catch issues early!
+
+#             *Links:*
+#             • <${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}|View Failed Action Logs>
+#             • <${{ github.server_url }}/${{ github.repository }}/commit/${{ github.sha }}|View Commit>
+#         env:
+#           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+
+#       # Fail the job if tests failed (after notifications are sent)
+#       - name: Fail job if tests failed
+#         if: steps.test-step.outcome == 'failure'
+#         run: exit 1
+
 # name: Run Tests
 # on:
 #   pull_request:
