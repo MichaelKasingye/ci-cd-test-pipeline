@@ -65,9 +65,9 @@ jobs:
           message: |
             :x: *Tests Failed!*
 
-            **Custom Alert:** Houston, we have a problem! :rotating_light: The tests are not passing and need immediate attention.
 
             *Repository:* ${{ github.repository }}
+            **Custom Alert:** Houston, we have a problem! :rotating_light: The tests are not passing and need immediate attention.
             *Branch:* ${{ github.ref_name }}
             *Commit:* `${{ github.sha }}`
             *Message:* ${{ github.event.head_commit.message }}
